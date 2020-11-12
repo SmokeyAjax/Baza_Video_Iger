@@ -5,4 +5,5 @@ Dva chada bota naredila SQL database za video igre, kjer bodo vsi podatki o dolo
 
 Sestavila bova podatkovno bazo video igerc. Podatkovna baza bo vsebovala tabele:
   - Igerce, platforme, razvijalce, distributorje.
-  - Podatki: 
+  - Podatki:
+      - Igre

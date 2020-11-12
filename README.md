@@ -8,3 +8,6 @@ Sestavila bova podatkovno bazo video iger. Podatkovna baza bo vsebovala tabele, 
   - Razvijalci: Id, Ime razvijalca, datum ustanovitve, država, povprečna ocena izdelkov, opis.
   - (Distributor: Id, Ime distributorja, država, datum ustanovitve)
   - Platforma: Id, Ime platforme, tip, datum izdaje, opis
+
+Podatki bodo realni, iz spletni strani: https://www.igdb.com/discover
+

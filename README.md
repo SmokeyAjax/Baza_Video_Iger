@@ -1,9 +1,9 @@
-# Chad-baze-1
+# Baza video iger
 Podatkovne baze 1
 
-Dva chada bota naredila SQL database za video igre, kjer bodo vsi podatki o določeni igri.
+Sestavila bova podatkovno bazo video iger, kjer se bo dalo pogledati splošne podatke o določeni igri. (Ideja je podobno kot IMDB, samo da za igre in zelo manj obsežna)
 
-Sestavila bova podatkovno bazo video iger. Podatkovna baza bo vsebovala tabele, z danimi podatki:
+Podatkovna baza bo vsebovala tabele, z danimi podatki:
   - Igre: Id, Ime igre, datum izdaje, razvijalec, platforma, distributor, ocena, žanr, opis.
   - Razvijalci: Id, Ime razvijalca, datum ustanovitve, država, povprečna ocena izdelkov, opis.
   - (Distributor: Id, Ime distributorja, država, datum ustanovitve)

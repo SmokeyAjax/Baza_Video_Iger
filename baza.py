@@ -146,6 +146,7 @@ class Igra(Tabela):
             CREATE TABLE igra (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 [ime igre] TEXT NOT NULL,
+                razvijalec TEXT REFRENCES razvijalec(razvijalec)
                 [datum izdaje] DATE NOT NULL,
                 ocena FLOAT NOT NULL,
                 žanr TEXT NOT NULL,
@@ -383,13 +384,14 @@ def pripravi_tabele(conn):
     Pripravi objekte za tabele.
     """
     uporabnik = Uporabnik(conn)
-    zanr = Zanr(conn)
-    oznaka = Oznaka(conn)
-    film = Film(conn, oznaka)
-    oseba = Oseba(conn)
-    vloga = Vloga(conn)
-    pripada = Pripada(conn, zanr)
-    return [uporabnik, zanr, oznaka, film, oseba, vloga, pripada]
+    podjetje = Podjetje(conn)
+    platforma = Platforma(conn, podjetje)
+    distributer = Distributer(conn)
+    razvijalec = Razvijalec(conn)
+    igra = Igra(conn, razvijalec)
+    distributira = Distributira(conn, igra)
+    podpira = Podpira(conn, igra)
+    return [uporabnik, igra, podjetje, platforma, distributer, distributira, razvijalec, podpira]
 
 
 def ustvari_bazo_ce_ne_obstaja(conn):

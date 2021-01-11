@@ -1,0 +1,17 @@
+% rebase('html/osnova.html')
+
+<main>
+    % for podatek in podatki_o_igri:
+      <h1>{{podatek.ime_igre}}</h1>
+
+    <label>Podatki:</label>
+
+    <p>Ime igre: {{podatek.ime_igre}}</p>
+    <p>Datum izdaje: {{podatek.datum_izdaje}}</p>
+    <p>Cena: {{podatek.cena}}</p>
+    <p>Število prodanih enot: {{podatek.st_prodanih}}</p>
+    <p>Razvijalec: {{podatek.razvijalec}}</p>
+    <p>Povprečen čas igranja: {{podatek.cas_igranja}}</p>
+    <p>Mediana igranega časa: {{podatek.meadina_igranja}}</p>
+    <p>Ocena: {{podatek.ocena}}</p>
+</main>

@@ -28,15 +28,15 @@
           </tr>
           % for igra in najnovejse_igre:
               <tr>
-                <td> {{igra.ime_igre}} </td>
+                <td><a href="http://127.0.0.1:8080/{{igra.ime_igre}}/">{{igra.ime_igre}}</a></td>
                 <td> {{igra.datum_izdaje}} </td>
               </tr>
           % end
         </table>
 
-        <p> Glej vse igre </p>
+        <button class="button"> Glej vse igre </button>
 
-        <p> Dodaj Video Igro </p>
+        <button class="button"> Dodaj Video Igro </button>
 
-        <p> Dodaj Podjetje </p>
+        <button class="button"> Dodaj Podjetje </button>
     </main>

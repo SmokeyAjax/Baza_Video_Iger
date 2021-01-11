@@ -63,7 +63,7 @@ class Tabela:
             .format(self.ime, ", ".join(stolpci),
                     ", ".join(PARAM_FMT.format(s) for s in stolpci))
 
-    def dodaj_vrstico(self, /, **podatki):
+    def dodaj_vrstico(self,  **podatki):
         """
         Metoda za dodajanje vrstice.
         Argumenti:
@@ -95,7 +95,7 @@ class Uporabnik(Tabela):
             )
         """)
 
-    def dodaj_vrstico(self, /, **podatki):
+    def dodaj_vrstico(self, **podatki):
         """
         Dodaj uporabnika.
         Če sol ni podana, zašifrira podano geslo.
@@ -121,15 +121,67 @@ class Podjetje(Tabela):
         self.conn.execute("""
             CREATE TABLE podjetje (
                 id    INTEGER PRIMARY KEY AUTOINCREMENT,
-                ime TEXT UNIQUE NOT NULL,
-                [datum ustanovitve] as DATE NOT NULL,
-                država TEXT NOT NULL,
-                opis TEXT  
+                ime TEXT NOT NULL UNIQUE,
+                drzava TEXT,
+                datum_ustanovitve DATE,
+                opis TEXT
             );
         """)
 
+# class Razvijalec(Tabela):
+#     """
+#     Tabela za razvijalce.
+#     """
+#     ime = "razvijalec"
 
+#     def __init__(self, conn, podjetje):
+#         """
+#         Konstruktor tabele platform.
+#         Argumenti:
+#         - conn: povezava na bazo
+#         - podjetje: tabela za podjetje
+#         """
+#         super().__init__(conn)
+#         self.podjetje = podjetje
 
+#     def ustvari(self):
+#         """
+#         Ustvari tabelo razvijalec.
+#         """
+#         self.conn.execute("""
+#             CREATE TABLE razvijalec (
+#                 id INTEGER PRIMARY KEY,
+#                 ime  TEXT REFERENCES podjetje (ime)
+#             );
+#         """)
+
+# class Distributer(Tabela):
+#     """
+#     Tabela za Distributarja.
+#     """
+#     ime = "distributer"
+
+#     def __init__(self, conn, podjetje):
+#         """
+#         Konstruktor tabele distributerja.
+#         Argumenti:
+#         - conn: povezava na bazo
+#         - podjetje: tabela za podjetje
+#         """
+#         super().__init__(conn)
+#         self.podjetje = podjetje
+
+#     def ustvari(self):
+#         """
+#         Ustvari tabelo distributer.
+#         """
+#         self.conn.execute("""
+#             CREATE TABLE distributer (
+#                 id INTEGER PRIMARY KEY,
+#                 ime  TEXT REFERENCES podjetje (ime)
+                
+#             );
+#         """)
 
 class Igra(Tabela):
     """
@@ -137,31 +189,35 @@ class Igra(Tabela):
     """
 
     ime = "igra"
-    podatki = "podatki/_.csv" # RABIVA DODATI
+    podatki = "podatki/igre.csv"
 
-    def __init__(self, conn, razvijalec):
+    def __init__(self, conn, podjetje):
         """
         Konstruktor tabele platform.
         Argumenti:
         - conn: povezava na bazo
-        - razvijalec: tabela za Razvijalec
+        - podjetje: tabela za podjetje
         """
         super().__init__(conn)
-        self.razvijalec = razvijalec
+        self.podjetje = podjetje
 
     def ustvari(self):
         """
         Ustvari tabelo Igra.
         """
+        # platforma za zbrisat!
         self.conn.execute("""
             CREATE TABLE igra (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                [ime igre] TEXT NOT NULL,
-                razvijalec TEXT REFRENCES razvijalec(razvijalec)
-                [datum izdaje] DATE NOT NULL,
-                ocena FLOAT NOT NULL,
-                žanr TEXT NOT NULL,
-                opis TEXT,
+                ime_igre TEXT NOT NULL,
+                datum_izdaje DATE NOT NULL,
+                cena FLOAT NOT NULL,
+                vsebuje TEXT,
+                razvija TEXT REFERENCES podjetje(ime),
+                povprecno_igranje FLOAT,
+                mediana FLOAT,
+                ocena FLOAT NOT NULL
+              
             );
         """)
 
@@ -171,17 +227,7 @@ class Platforma(Tabela):
     Tabela za platforme.
     """
     ime = "platforma"
-    podatki = "podatki/platforms.csv"
-
-    def __init__(self, conn, podjetje):
-        """
-        Konstruktor tabele platform.
-        Argumenti:
-        - conn: povezava na bazo
-        - podjejte: tabela za podjetje
-        """
-        super().__init__(conn)
-        self.podjetje = podjetje
+    podatki = "podatki/platforme.csv"
 
     def ustvari(self):
         """
@@ -192,69 +238,31 @@ class Platforma(Tabela):
                 id        INTEGER PRIMARY KEY,
                 ime       TEXT NOT NULL,
                 tip   TEXT NOT NULL,
-                [datum izdaje] DATE NOT NULL,
+                datum_izdaje DATE NOT NULL,
                 opis     TEXT,
-                podjetje    TEXT    REFERENCES podjetje (ime),
+                podjetje    TEXT
             );
         """)
 
-class Razvijalec(Tabela):
-    """
-    Tabela za razvijalce.
-    """
-    ime = "razvijalec"
-    podatki = "podatki/developerji.csv"
 
-    # def __init__(self, conn, razvijalec):
+    # def dodaj_vrstico(self,  **podatki):
     #     """
-    #     Konstruktor tabele platform.
+    #     Dodaj distributerja.
+    #     Če distributerja že obstaja, vrne obstoječi ID.
     #     Argumenti:
-    #     - conn: povezava na bazo
-    #     - podjetje: tabela za podjetje
+    #     - poimenovani parametri: vrednosti v ustreznih stolpcih
     #     """
-    #     super().__init__(conn)
-    #     self.razvijalec = razvijalec
-
-    def ustvari(self):
-        """
-        Ustvari tabelo razvijalec.
-        """
-        self.conn.execute("""
-            CREATE TABLE razvijalec (
-                id INTEGER PRIMARY KEY,
-                razvijalec  TEXT REFERENCES podjetje (ime),
-            );
-        """)
-
-
-class Distributer(Tabela):
-    """
-    Tabela za Distributarja.
-    """
-    ime = "distributer"
-    podatki = "podatki/developerji.csv"
-
-    # def __init__(self, conn, distributer):
-    #     """
-    #     Konstruktor tabele distributerja.
-    #     Argumenti:
-    #     - conn: povezava na bazo
-    #     - podjetje: tabela za podjetje
-    #     """
-    #     super().__init__(conn)
-    #     self.distributer = distributer
-
-    def ustvari(self):
-        """
-        Ustvari tabelo distributer.
-        """
-        self.conn.execute("""
-            CREATE TABLE distributer (
-                id INTEGER PRIMARY KEY,
-                distributer  TEXT REFERENCES podjetje (ime),
-                )
-            );
-        """)
+    #     assert "distributer" in podatki
+    #     cur = self.conn.execute("""
+    #         SELECT id FROM distributer
+    #         WHERE ime = :ime;
+    #     """, podatki)
+    #     r = cur.fetchone()
+    #     if r is None:
+    #         return super().dodaj_vrstico(**podatki)
+    #     else:
+    #         id, = r
+    #         return id
 
 
 class Distributira(Tabela):
@@ -262,7 +270,7 @@ class Distributira(Tabela):
     Tabela za relacijo pripadnosti distributerja igre.
     """
     ime = "distributira"
-    podatki = "podatki/_.csv" # MANJKA
+    podatki = "podatki/publisherji.csv"
 
     def __init__(self, conn, igra):
         """
@@ -280,24 +288,26 @@ class Distributira(Tabela):
         """
         self.conn.execute("""
             CREATE TABLE distributira (
-                [ime igre] TEXT REFERENCES igra ([ime igre]),
-                podjetje TEXT REFERENCES distributer (distributer),
+                id INTEGER,
+                podjetje TEXT REFERENCES podjetje (ime),
+                ime_igre TEXT REFERENCES igra (ime_igre),
                 PRIMARY KEY (
-                    [ime igre],
+                    id,
+                    ime_igre,
                     podjetje
                 )
             );
         """)
 
-    def dodaj_vrstico(self, /, **podatki):
+    def dodaj_vrstico(self, **podatki):
         """
         Dodaj pripadnost igre in pripadajoči distributer.
         Argumenti:
         - podatki: slovar s podatki o distribuciji
         """
-        if podatki.get("[ime igre]", None) is not None:
-            podatki["igra"] = self.igra.dodaj_vrstico(naziv=podatki["[ime igre]"])
-            del podatki["[ime igre]"]
+        if podatki.get("[ime_igre]", None) is not None:
+            podatki["igra"] = self.igra.dodaj_vrstico(naziv=podatki["[ime_igre]"])
+            del podatki["[ime_igre]"]
         return super().dodaj_vrstico(**podatki)
 
 
@@ -307,7 +317,7 @@ class Podpira(Tabela):
     Tabela za relacijo pripadnosti platforme igri.
     """
     ime = "podpira"
-    podatki = "podatki/_.csv" # MANJKA
+    podatki = "podatki/podpira.csv"
 
     def __init__(self, conn, igra):
         """
@@ -325,24 +335,26 @@ class Podpira(Tabela):
         """
         self.conn.execute("""
             CREATE TABLE podpira (
-                [ime igre] INTEGER REFERENCES igra ([ime igre]),
-                platforma INTEGER REFERENCES platforma (ime),
+                id INTEGER,
+                ime_igre TEXT REFERENCES igra (ime_igre),
+                platforma TEXT REFERENCES platforma (ime),
                 PRIMARY KEY (
-                    [ime igre],
+                    id,
+                    ime_igre,
                     platforma
                 )
             );
         """)
 
-    def dodaj_vrstico(self, /, **podatki):
+    def dodaj_vrstico(self, **podatki):
         """
         Dodaj pripadnost filma in pripadajoči žanr.
         Argumenti:
         - podatki: slovar s podatki o pripadnosti
         """
-        if podatki.get("[ime igre]", None) is not None:
-            podatki["igra"] = self.igra.dodaj_vrstico(naziv=podatki["[ime igre]"]) # VPRAŠANJE
-            del podatki["[ime igre]"]
+        if podatki.get("[ime_igre]", None) is not None:
+            podatki["igra"] = self.igra.dodaj_vrstico(naziv=podatki["[ime_igre]"])
+            del podatki["[ime_igre]"]
         return super().dodaj_vrstico(**podatki)
 
 
@@ -394,13 +406,13 @@ def pripravi_tabele(conn):
     """
     uporabnik = Uporabnik(conn)
     podjetje = Podjetje(conn)
-    platforma = Platforma(conn, podjetje)
-    distributer = Distributer(conn)
-    razvijalec = Razvijalec(conn)
-    igra = Igra(conn, razvijalec)
+    platforma = Platforma(conn)
+    # distributer = Distributer(conn, podjetje)
+    #razvijalec = Razvijalec(conn, podjetje)
+    igra = Igra(conn, podjetje)
     distributira = Distributira(conn, igra)
     podpira = Podpira(conn, igra)
-    return [uporabnik, igra, podjetje, platforma, distributer, distributira, razvijalec, podpira]
+    return [uporabnik, podjetje, igra, platforma, distributira, podpira]
 
 
 def ustvari_bazo_ce_ne_obstaja(conn):

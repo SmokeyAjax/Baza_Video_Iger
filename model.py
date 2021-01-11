@@ -69,19 +69,19 @@ class Igre:
     Razred za igre.
     """
 
-    def __init__(self, ime_igre, datum_izdaje, *, id = None):
+    def __init__(self, ime_igre, datum_izdaje, cena, st_prodanih, razvijalec, cas_igranja
+        , meadina_igranja, ocena):
         """
         Konstruktor igre.
         """
         self.ime_igre = ime_igre
         self.datum_izdaje = datum_izdaje
-
-    # def __str__(self):
-    #     """
-    #     Znakovna predstavitev igre.
-    #     Vrne naslov igre.
-    #     """
-    #     return self.naslov
+        self.cena = cena
+        self.st_prodanih = st_prodanih
+        self.razvijalec = razvijalec
+        self.cas_igranja = cas_igranja
+        self.meadina_igranja = meadina_igranja
+        self.ocena = ocena
 
     @staticmethod
     def najnovejse_igre():
@@ -89,13 +89,27 @@ class Igre:
         Vrne najboljših 10 filmov v danem letu.
         """
         sql = """
-            SELECT ime_igre, datum_izdaje
+            SELECT ime_igre, datum_izdaje, cena, vsebuje, razvija, povprecno_igranje, mediana, ocena
             FROM igra
             ORDER BY datum_izdaje DESC
             LIMIT 10
         """
-        for ime_igre, datum_izdaje in conn.execute(sql):
-            yield Igre(ime_igre, datum_izdaje)
+        for ime_igre, datum_izdaje, cena, st_prodanih, razvijalec, cas_igranja, meadina_igranja, ocena in conn.execute(sql):
+            yield Igre(ime_igre, datum_izdaje, cena, st_prodanih, razvijalec, cas_igranja, meadina_igranja, ocena)
+
+    @staticmethod
+    def podatki_o_igri(igra):
+        """
+        Vrne vse podatke o igri.
+        """
+        sql = """
+            SELECT ime_igre, datum_izdaje, cena, vsebuje, razvija, povprecno_igranje, mediana, ocena
+            FROM igra
+            WHERE ime_igre == ?
+        """
+        for ime_igre, datum_izdaje, cena, st_prodanih, razvijalec, cas_igranja, meadina_igranja, ocena in conn.execute(sql, [igra]):
+            yield Igre(ime_igre, datum_izdaje, cena, st_prodanih, razvijalec, cas_igranja, meadina_igranja, ocena)
+
 
     # def dodaj_v_bazo(self, reziserji, igralci):
     #     """

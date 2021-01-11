@@ -1,0 +1,42 @@
+% rebase('html/osnova.html')
+
+    <main>
+      <h1>Podatkovna Baza Video Iger</h1>
+
+        <!-- Iskalno polje ter gump -->
+        <form action="/isci/">
+            <div class="field">
+                <label class="label">IŠČI VIDEO IGRO</label>
+                <div class="control">
+                    <input class="input" type="text" placeholder="npr. Batman" name="iskalni_niz">
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="control">
+                    <button class="button">Išči!</button>
+                </div>
+            </div>
+        </form>
+
+        <!-- Tabela najnovejših iger -->
+        <p> Seznam 10 najnovejših iger:</p>
+        <table>
+          <tr>
+            <th>Ime Igre</th>
+            <th>Datum Izdaje</th>
+          </tr>
+          % for igra in najnovejse_igre:
+              <tr>
+                <td> {{igra.ime_igre}} </td>
+                <td> {{igra.datum_izdaje}} </td>
+              </tr>
+          % end
+        </table>
+
+        <p> Glej vse igre </p>
+
+        <p> Dodaj Video Igro </p>
+
+        <p> Dodaj Podjetje </p>
+    </main>

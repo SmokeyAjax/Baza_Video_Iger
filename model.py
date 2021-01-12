@@ -138,6 +138,8 @@ class Igre:
         for ime_igre, datum_izdaje, cena, ocena, *ostalo  in conn.execute(sql):
             yield Igre(ime_igre, datum_izdaje, cena, ocena, *ostalo)
 
+
+
     # def dodaj_v_bazo(self, reziserji, igralci):
     #     """
     #     V bazo doda film s podanimi režiserji in igralci
@@ -151,6 +153,62 @@ class Igre:
     #             vloga.dodaj_vrstico(film=id, oseba=oseba.id, tip=TipVloge.I.name, mesto=mesto)
     #         self.id = id1
 
+
+class Podjetje:
+    """
+    Razred za podjetja.
+    """
+
+    def __init__(self, ime, drzava, datum_ustanovitve, opis):
+        """
+        Konstruktor podjetja.
+        """
+        self.ime = ime
+        self.drzava = drzava
+        self.datum_ustanovitve = datum_ustanovitve
+        self.opis = opis
+
+    
+    @staticmethod
+    def podatki_o_podjetju(podjetje):
+        """
+        Vrne vse podatke o podjetju.
+        """
+        sql = """
+            SELECT ime, drzava, datum_ustanovitve, opis
+            FROM podjetje
+            WHERE ime == ?
+        """
+        for ime, drzava, datum_ustanovitve, opis in conn.execute(sql, [podjetje]):
+            yield Podjetje(ime, drzava, datum_ustanovitve, opis)
+
+class Platforma:
+    """
+    Razred za platformo.
+    """
+
+    def __init__(self, ime, tip, datum_izdaje, opis, podjetje):
+        """
+        Konstruktor platformo.
+        """
+        self.ime = ime
+        self.tip = tip
+        self.datum_izdaje = datum_izdaje
+        self.opis = opis
+        self.podjetje = podjetje
+
+    @staticmethod
+    def podatki_o_platformi(platforma):
+        """
+        Vrne vse podatke o platformi.
+        """
+        sql = """
+            SELECT ime, tip, datum_izdaje, opis, podjetje
+            FROM platforma
+            WHERE ime == ?
+        """
+        for ime, tip, datum_izdaje, opis, podjetje in conn.execute(sql, [platforma]):
+            yield Platforma(ime, tip, datum_izdaje, opis, podjetje)
 
 # class Oseba:
 #     """

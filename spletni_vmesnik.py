@@ -1,6 +1,6 @@
 import bottle
 from sqlite3 import IntegrityError
-from model import LoginError,  Igre
+from model import LoginError,  Igre, Podjetje, Platforma
 
 @bottle.get('/')
 def glavna_stran():
@@ -14,7 +14,23 @@ def igra(igra):
     return bottle.template(
         'html/igra.html',
         igra = igra,
-        podatki_o_igri=Igre.podatki_o_igri(igra)
+        podatki_o_igri = Igre.podatki_o_igri(igra)
+    )
+
+@bottle.get('/igre/<podjetje>/')
+def podjetje(podjetje):
+    return bottle.template(
+        'html/podjetje.html',
+        podjetje = podjetje,
+        podatki_o_podjetju = Podjetje.podatki_o_podjetju(podjetje)
+    )
+
+@bottle.get('/igre/<platforma>/')
+def platforma(platforma):
+    return bottle.template(
+        'html/platforma.html',
+        platforma = platforma,
+        podatki_o_platformi = Platforma.podatki_o_platformi(platforma)
     )
 
 @bottle.get('/isci/')

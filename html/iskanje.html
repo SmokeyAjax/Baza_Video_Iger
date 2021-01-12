@@ -1,0 +1,26 @@
+% rebase('html/osnova.html')
+
+<main>
+
+      <h1>Iskanje niza: {{iskalni_niz}}</h1>
+
+    % i = 0
+    % for igra in igre:
+    <p><a href="http://127.0.0.1:8080/{{igra.ime_igre}}/">{{igra.ime_igre}}</a></p>
+    % i += 1
+    % end
+
+    <p>
+        Našenih je bilo blo: {{i}} zadetkov.
+    </p>
+
+    <!-- Gump za Glavno stran -->
+    <form action='/'>
+        <div class="field">
+                <div class="control">
+                    <button class="button">Nazaj na Glavno Stran</button>
+                </div>
+            </div>
+    </form>
+
+</main>

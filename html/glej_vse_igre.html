@@ -1,0 +1,31 @@
+% rebase('html/osnova.html')
+
+<main>
+    <h1>Vse igre</h1>
+
+        <!-- Gump za Glavno stran -->
+    <form action='/'>
+        <div class="field">
+                <div class="control">
+                    <button class="button">Nazaj na Glavno Stran</button>
+                </div>
+            </div>
+    </form>
+
+    <table>
+          <tr>
+            <th>Ime Igre</th>
+            <th>Datum Izdaje</th>
+            <th>Cena</th>
+            <th>Ocena</th>
+          </tr>
+          % for igra in glej_vse_igre:
+              <tr>
+                <td><a href="http://127.0.0.1:8080/{{igra.ime_igre}}/">{{igra.ime_igre}}</a></td>
+                <td> {{igra.datum_izdaje}} </td>
+                <td> {{igra.cena}} </td>
+                <td> {{igra.ocena}} </td>
+              </tr>
+          % end
+        </table>
+</main>

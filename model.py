@@ -70,7 +70,7 @@ class Igre:
     """
 
     def __init__(self, ime_igre, datum_izdaje, cena, st_prodanih, razvijalec, cas_igranja
-        , meadina_igranja, ocena):
+        , meadina_igranja, ocena, *ostalo):
         """
         Konstruktor igre.
         """
@@ -82,6 +82,7 @@ class Igre:
         self.cas_igranja = cas_igranja
         self.meadina_igranja = meadina_igranja
         self.ocena = ocena
+        self.ostalo = ostalo
 
     @staticmethod
     def najnovejse_igre():
@@ -94,8 +95,8 @@ class Igre:
             ORDER BY datum_izdaje DESC
             LIMIT 10
         """
-        for ime_igre, datum_izdaje, cena, st_prodanih, razvijalec, cas_igranja, meadina_igranja, ocena in conn.execute(sql):
-            yield Igre(ime_igre, datum_izdaje, cena, st_prodanih, razvijalec, cas_igranja, meadina_igranja, ocena)
+        for ime_igre, datum_izdaje, *ostalo in conn.execute(sql):
+            yield Igre(ime_igre, datum_izdaje, *ostalo)
 
     @staticmethod
     def podatki_o_igri(igra):
@@ -103,13 +104,39 @@ class Igre:
         Vrne vse podatke o igri.
         """
         sql = """
+            SELECT igra.ime_igre, datum_izdaje, cena, vsebuje, razvija, povprecno_igranje, mediana, ocena,
+             distributira.podjetje, podpira.platforma
+            FROM igra LEFT JOIN podpira ON (igra.ime_igre = podpira.ime_igre)
+                      LEFT JOIN distributira ON (igra.ime_igre = distributira.ime_igre)
+            WHERE igra.ime_igre == ?
+        """
+        for ime_igre, datum_izdaje, cena, st_prodanih, razvijalec, cas_igranja, meadina_igranja, ocena, distibuter, platforma in conn.execute(sql, [igra]):
+            yield Igre(ime_igre, datum_izdaje, cena, st_prodanih, razvijalec, cas_igranja, meadina_igranja, ocena, distibuter, platforma)
+
+    @staticmethod
+    def poisci(niz):
+        """
+        Vrne vse igre, ki v imenu vsebujejo dani niz.
+        """
+        sql = """
             SELECT ime_igre, datum_izdaje, cena, vsebuje, razvija, povprecno_igranje, mediana, ocena
             FROM igra
-            WHERE ime_igre == ?
+            WHERE ime_igre LIKE ?
         """
-        for ime_igre, datum_izdaje, cena, st_prodanih, razvijalec, cas_igranja, meadina_igranja, ocena in conn.execute(sql, [igra]):
-            yield Igre(ime_igre, datum_izdaje, cena, st_prodanih, razvijalec, cas_igranja, meadina_igranja, ocena)
+        for ime_igre, *ostalo in conn.execute(sql, ['%' + niz + '%']):
+            yield Igre(ime_igre, *ostalo)
 
+    @staticmethod
+    def glej_vse_igre():
+        """
+        Vrne vse podatke o igri.
+        """
+        sql = """
+                SELECT ime_igre, datum_izdaje, cena, vsebuje, razvija, povprecno_igranje, mediana, ocena
+                FROM igra
+            """
+        for ime_igre, datum_izdaje, cena, ocena, *ostalo  in conn.execute(sql):
+            yield Igre(ime_igre, datum_izdaje, cena, ocena, *ostalo)
 
     # def dodaj_v_bazo(self, reziserji, igralci):
     #     """

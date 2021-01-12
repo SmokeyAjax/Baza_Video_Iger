@@ -1,0 +1,24 @@
+% rebase('html/osnova.html')
+
+<main>
+    % for podatek in podatki_o_podjetju:
+      <h1>{{podatek.ime}}</h1>
+
+    <label>Podatki:</label>
+    <br>
+
+    <p style= padding-left:5em>Ime podjetja: {{podatek.ime}}</p>
+    <p style= padding-left:5em>Kraj ustanovitve: {{podatek.drzava}}</p>
+    <p style= padding-left:5em>Datum ustanovitve: {{podatek.datum_ustanovitve}}</p>
+    <p style= padding-left:5em>Opis: {{podatek.opis}}</p>
+
+
+    <!-- Gump za Glavno stran -->
+    <form action='/'>
+        <div class="field">
+                <div class="control">
+                    <button class="button">Nazaj na Glavno Stran</button>
+                </div>
+            </div>
+    </form>
+</main>

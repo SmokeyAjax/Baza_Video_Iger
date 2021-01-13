@@ -104,10 +104,13 @@ class Igre:
         Vrne vse podatke o igri.
         """
         sql = """
-            SELECT igra.ime_igre, datum_izdaje, cena, vsebuje, razvija, povprecno_igranje, mediana, ocena,
-             distributira.podjetje, podpira.platforma
-            FROM igra LEFT JOIN podpira ON (igra.ime_igre = podpira.ime_igre)
-                      LEFT JOIN distributira ON (igra.ime_igre = distributira.ime_igre)
+            SELECT igra.ime_igre, igra.datum_izdaje, cena, vsebuje, razvijalec.ime, povprecno_igranje, mediana, ocena,
+             podjetje.ime, platforma.ime
+            FROM igra LEFT JOIN podpira ON (igra.id = podpira.ime_igre)
+                      LEFT JOIN platforma ON (podpira.platforma = platforma.id)
+                      LEFT JOIN distributira ON (igra.id = distributira.ime_igre)
+                      LEFT JOIN podjetje ON (distributira.podjetje = podjetje.id)
+                      LEFT JOIN podjetje AS razvijalec ON (igra.razvija = razvijalec.id)
             WHERE igra.ime_igre == ?
         """
         for ime_igre, datum_izdaje, cena, st_prodanih, razvijalec, cas_igranja, meadina_igranja, ocena, distibuter, platforma in conn.execute(sql, [igra]):
@@ -168,7 +171,9 @@ class Podjetje:
         self.datum_ustanovitve = datum_ustanovitve
         self.opis = opis
 
-    
+    def __str__(self):
+        return self.ime
+
     @staticmethod
     def podatki_o_podjetju(podjetje):
         """

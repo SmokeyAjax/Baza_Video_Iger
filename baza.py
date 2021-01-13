@@ -128,60 +128,6 @@ class Podjetje(Tabela):
             );
         """)
 
-# class Razvijalec(Tabela):
-#     """
-#     Tabela za razvijalce.
-#     """
-#     ime = "razvijalec"
-
-#     def __init__(self, conn, podjetje):
-#         """
-#         Konstruktor tabele platform.
-#         Argumenti:
-#         - conn: povezava na bazo
-#         - podjetje: tabela za podjetje
-#         """
-#         super().__init__(conn)
-#         self.podjetje = podjetje
-
-#     def ustvari(self):
-#         """
-#         Ustvari tabelo razvijalec.
-#         """
-#         self.conn.execute("""
-#             CREATE TABLE razvijalec (
-#                 id INTEGER PRIMARY KEY,
-#                 ime  TEXT REFERENCES podjetje (ime)
-#             );
-#         """)
-
-# class Distributer(Tabela):
-#     """
-#     Tabela za Distributarja.
-#     """
-#     ime = "distributer"
-
-#     def __init__(self, conn, podjetje):
-#         """
-#         Konstruktor tabele distributerja.
-#         Argumenti:
-#         - conn: povezava na bazo
-#         - podjetje: tabela za podjetje
-#         """
-#         super().__init__(conn)
-#         self.podjetje = podjetje
-
-#     def ustvari(self):
-#         """
-#         Ustvari tabelo distributer.
-#         """
-#         self.conn.execute("""
-#             CREATE TABLE distributer (
-#                 id INTEGER PRIMARY KEY,
-#                 ime  TEXT REFERENCES podjetje (ime)
-                
-#             );
-#         """)
 
 class Igra(Tabela):
     """
@@ -211,12 +157,12 @@ class Igra(Tabela):
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 ime_igre TEXT NOT NULL,
                 datum_izdaje DATE NOT NULL,
-                cena FLOAT NOT NULL,
+                cena FLOAT,
                 vsebuje TEXT,
-                razvija TEXT REFERENCES podjetje(ime),
+                razvija INTEGER REFERENCES podjetje(id),
                 povprecno_igranje FLOAT,
                 mediana FLOAT,
-                ocena TEXT NOT NULL
+                ocena FLOAT
               
             );
         """)
@@ -288,11 +234,9 @@ class Distributira(Tabela):
         """
         self.conn.execute("""
             CREATE TABLE distributira (
-                id INTEGER,
-                podjetje TEXT REFERENCES podjetje (ime),
-                ime_igre TEXT REFERENCES igra (ime_igre),
+                podjetje INTEGER REFERENCES podjetje (id),
+                ime_igre INTEGER REFERENCES igra (id),
                 PRIMARY KEY (
-                    id,
                     ime_igre,
                     podjetje
                 )
@@ -335,11 +279,9 @@ class Podpira(Tabela):
         """
         self.conn.execute("""
             CREATE TABLE podpira (
-                id INTEGER,
-                ime_igre TEXT REFERENCES igra (ime_igre),
-                platforma TEXT REFERENCES platforma (ime),
+                ime_igre INTEGER REFERENCES igra (id),
+                platforma INTEGER REFERENCES platforma (id),
                 PRIMARY KEY (
-                    id,
                     ime_igre,
                     platforma
                 )

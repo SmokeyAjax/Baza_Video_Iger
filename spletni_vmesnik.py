@@ -17,7 +17,7 @@ def igra(igra):
         podatki_o_igri = Igre.podatki_o_igri(igra)
     )
 
-@bottle.get('/igre/<podjetje>/')
+@bottle.get('/podjetje/<podjetje>/')
 def podjetje(podjetje):
     return bottle.template(
         'html/podjetje.html',
@@ -25,7 +25,7 @@ def podjetje(podjetje):
         podatki_o_podjetju = Podjetje.podatki_o_podjetju(podjetje)
     )
 
-@bottle.get('/igre/<platforma>/')
+@bottle.get('/platforme/<platforma>/')
 def platforma(platforma):
     return bottle.template(
         'html/platforma.html',

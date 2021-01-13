@@ -1,11 +1,12 @@
 id,ime,tip,datum_izdaje,opis,podjetje
-0,PC(Microsoft Windows),OS,2007-01-30,,Microsoft
+0,PC,OS,2007-01-30,,Microsoft
 1,PS4,Console,2013-11-29,,Sony
 2,PS3,Console,2012-09-27,,Sony
 3,X360,Console,2005-11-22,,Microsoft
 4,WIIU,Console,2012-12-28,,Nintendo
 5,Nintendo DS,Portable,2005-03-11,,Nintendo
 6,XONE,Console,2013-11-22,,Microsoft
-7,Vita,Portable,2015-03-20,,Sony
+7,VITA,Portable,2015-03-20,,Sony
 8,3DS,Portable,2011-02-26,,Nintendo
 9,Switch,Console,2017-03-03,,Nintendo
+10,DS,Portable,2004-11-21,,Nintendo

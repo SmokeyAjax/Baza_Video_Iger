@@ -16,10 +16,10 @@
           <tr>
             <th><a href="http://127.0.0.1:8080/glej_vse_igre/po_imenih/">Ime Igre</a></th>
             <th><a href="http://127.0.0.1:8080/glej_vse_igre/po_datumu/">Datum Izdaje</a></th>
-            <th><a href="http://127.0.0.1:8080/glej_vse_igre/po_ceni/">Cena</a></th>
+            <th><a href="http://127.0.0.1:8080/glej_vse_igre/">Cena</a></th>
             <th><a href="http://127.0.0.1:8080/glej_vse_igre/po_oceni/">Ocena</a></th>
           </tr>
-          % for igra in glej_vse_igre:
+          % for igra in glej_vse_igre_cena:
               <tr>
                 <td><a href="http://127.0.0.1:8080/{{igra.ime_igre}}/">{{igra.ime_igre}}</a></td>
                 <td> {{igra.datum_izdaje}} </td>

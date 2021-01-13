@@ -136,11 +136,63 @@ class Igre:
         """
         sql = """
                 SELECT ime_igre, datum_izdaje, cena, vsebuje, razvija, povprecno_igranje, mediana, ocena
-                FROM igra
+                FROM igra DESC
             """
         for ime_igre, datum_izdaje, cena, ocena, *ostalo  in conn.execute(sql):
             yield Igre(ime_igre, datum_izdaje, cena, ocena, *ostalo)
 
+    @staticmethod
+    def glej_vse_igre_imena():
+        """
+        Vrne vse podatke o igri razvrščeno po imenu.
+        """
+        sql = """
+                SELECT ime_igre, datum_izdaje, cena, vsebuje, razvija, povprecno_igranje, mediana, ocena
+                FROM igra
+                ORDER BY ime_igre
+            """
+        for ime_igre, datum_izdaje, cena, ocena, *ostalo  in conn.execute(sql):
+            yield Igre(ime_igre, datum_izdaje, cena, ocena, *ostalo)
+
+    @staticmethod
+    def glej_vse_igre_datum():
+        """
+        Vrne vse podatke o igri po datumu.
+        """
+        sql = """
+                SELECT ime_igre, datum_izdaje, cena, vsebuje, razvija, povprecno_igranje, mediana, ocena
+                FROM igra
+                ORDER BY datum_izdaje DESC
+            """
+        for ime_igre, datum_izdaje, cena, ocena, *ostalo  in conn.execute(sql):
+            yield Igre(ime_igre, datum_izdaje, cena, ocena, *ostalo)
+    
+    
+    @staticmethod
+    def glej_vse_igre_cena():
+        """
+        Vrne vse podatke o igri po ceni.
+        """
+        sql = """
+                SELECT ime_igre, datum_izdaje, cena, vsebuje, razvija, povprecno_igranje, mediana, ocena
+                FROM igra
+                ORDER BY cena DESC NULLS LAST
+            """
+        for ime_igre, datum_izdaje, cena, ocena, *ostalo  in conn.execute(sql):
+            yield Igre(ime_igre, datum_izdaje, cena, ocena, *ostalo)
+
+    @staticmethod
+    def glej_vse_igre_ocena():
+        """
+        Vrne vse podatke o igri po oceni.
+        """
+        sql = """
+                SELECT ime_igre, datum_izdaje, cena, vsebuje, razvija, povprecno_igranje, mediana, ocena
+                FROM igra
+                ORDER BY ocena DESC NULLS LAST
+            """
+        for ime_igre, datum_izdaje, cena, ocena, *ostalo  in conn.execute(sql):
+            yield Igre(ime_igre, datum_izdaje, cena, ocena, *ostalo)
 
 
     # def dodaj_v_bazo(self, reziserji, igralci):

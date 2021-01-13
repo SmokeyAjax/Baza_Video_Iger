@@ -50,5 +50,32 @@ def glej_vse_igre():
         glej_vse_igre=Igre.glej_vse_igre()
     )
 
+@bottle.get('/glej_vse_igre/po_imenih/')
+def glej_vse_igre_imena():
+    return bottle.template(
+        'html/glej_vse_igre_po_imenih.html',
+        glej_vse_igre_imena=Igre.glej_vse_igre_imena()
+    )
+
+@bottle.get('/glej_vse_igre/po_datumu/')
+def glej_vse_igre_datum():
+    return bottle.template(
+        'html/glej_vse_igre_po_datumu.html',
+        glej_vse_igre_datum=Igre.glej_vse_igre_datum()
+    )
+
+@bottle.get('/glej_vse_igre/po_ceni/')
+def glej_vse_igre_cena():
+    return bottle.template(
+        'html/glej_vse_igre_po_ceni.html',
+        glej_vse_igre_cena=Igre.glej_vse_igre_cena()
+    )
+
+@bottle.get('/glej_vse_igre/po_oceni/')
+def glej_vse_igre_ocena():
+    return bottle.template(
+        'html/glej_vse_igre_po_oceni.html',
+        glej_vse_igre_ocena=Igre.glej_vse_igre_ocena()
+    )
 
 bottle.run(debug=True, reloader=True)

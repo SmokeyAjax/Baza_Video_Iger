@@ -1,0 +1,30 @@
+% rebase('html/osnova.html')
+
+<h1>Dodaj Podjetje</h1>
+<form method="POST">
+        <label class="label">Ime Podjetja</label>
+        <div class="control">
+            <input class="input" type="text" placeholder="Valve" name="ime" value="{{ime}}">
+        </div>
+
+        <label class="label">Država ustanovitve</label>
+        <div class="control">
+            <input class="input" type="text" placeholder="Slovenija" name="drzava" value="{{drzava}}">
+        </div>
+
+        <label class="label">Datum Ustanovitve</label>
+        <div class="control">
+            <input class="input" type="date" placeholder="2021-01-01" name="datum_ustanovitve" value="{{datum_ustanovitve}}">
+        </div>
+
+        <label class="label">Opis</label>
+        <div class="control">
+            <input class="input" type="text" placeholder="Razvijalec in distibuter." name="opis" value="{{opis}}">
+        </div>
+
+        <div class="field">
+            <div class="control">
+                <button class="button">Dodaj!</button>
+            </div>
+        </div>
+</form>

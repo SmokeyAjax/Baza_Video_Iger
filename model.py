@@ -212,10 +212,11 @@ class Podjetje:
     Razred za podjetja.
     """
 
-    def __init__(self, ime, drzava, datum_ustanovitve, opis):
+    def __init__(self, ime, drzava, datum_ustanovitve, opis, id=None):
         """
         Konstruktor podjetja.
         """
+        self.id = id
         self.ime = ime
         self.drzava = drzava
         self.datum_ustanovitve = datum_ustanovitve
@@ -236,6 +237,15 @@ class Podjetje:
         """
         for ime, drzava, datum_ustanovitve, opis in conn.execute(sql, [podjetje]):
             yield Podjetje(ime, drzava, datum_ustanovitve, opis)
+
+    def dodaj_v_bazo(self):
+        """
+        V bazo doda podjetje.
+        """
+        assert self.id is None
+        with conn:
+            self.id = podjetje.dodaj_vrstico(
+                ime=self.ime, drzava=self.drzava, datum_ustanovitve=self.datum_ustanovitve, opis=self.opis)
 
 class Platforma:
     """
@@ -264,6 +274,7 @@ class Platforma:
         """
         for ime, tip, datum_izdaje, opis, podjetje in conn.execute(sql, [platforma]):
             yield Platforma(ime, tip, datum_izdaje, opis, podjetje)
+
 
 # class Oseba:
 #     """

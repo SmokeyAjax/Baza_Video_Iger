@@ -128,6 +128,12 @@ class Podjetje(Tabela):
             );
         """)
 
+    def dodaj_vrstico(self,  **podatki):
+        """
+        Doda podjetje v bazo.
+        """
+        return super().dodaj_vrstico(**podatki)
+
 
 class Igra(Tabela):
     """

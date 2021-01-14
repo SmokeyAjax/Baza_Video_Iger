@@ -2,6 +2,7 @@ import bottle
 from sqlite3 import IntegrityError
 from model import LoginError,  Igre, Podjetje, Platforma
 
+# Glavna Stran
 @bottle.get('/')
 def glavna_stran():
     return bottle.template(
@@ -9,6 +10,7 @@ def glavna_stran():
         najnovejse_igre = Igre.najnovejse_igre()
     )
 
+# Prikaz igre
 @bottle.get('/<igra>/')
 def igra(igra):
     return bottle.template(
@@ -17,6 +19,7 @@ def igra(igra):
         podatki_o_igri = Igre.podatki_o_igri(igra)
     )
 
+# Prikaz Podjetja
 @bottle.get('/podjetje/<podjetje>/')
 def podjetje(podjetje):
     return bottle.template(
@@ -25,6 +28,7 @@ def podjetje(podjetje):
         podatki_o_podjetju = Podjetje.podatki_o_podjetju(podjetje)
     )
 
+# Prikaz Platforme
 @bottle.get('/platforme/<platforma>/')
 def platforma(platforma):
     return bottle.template(
@@ -33,6 +37,7 @@ def platforma(platforma):
         podatki_o_platformi = Platforma.podatki_o_platformi(platforma)
     )
 
+# Iskanje stran
 @bottle.get('/isci/')
 def iskanje():
     iskalni_niz = bottle.request.query.getunicode('iskalni_niz')
@@ -43,6 +48,7 @@ def iskanje():
         igre = igre
     )
 
+# Glej vse igre stran, + vse verjante
 @bottle.get('/glej_vse_igre/')
 def glej_vse_igre():
     return bottle.template(
@@ -116,5 +122,22 @@ def dodaj_osebo_post():
         igra.dodaj_v_bazo()
         bottle.redirect('/')
 
+# Dodajanje Podjetja
+@bottle.get('/dodaj_podjetje/')
+def dodaj_podjetje():
+    return bottle.template(
+        'html/dodaj_podjetje.html',
+        ime = "", drzava = "", datum_ustanovitve = "", opis=""
+    )
+
+@bottle.post('/dodaj_podjetje/')
+def dodaj_podjetje_post():
+    ime = bottle.request.forms.getunicode('ime')
+    drzava = bottle.request.forms.getunicode('drzava')
+    datum_ustanovitve = bottle.request.forms.getunicode('datum_ustanovitve')
+    opis = bottle.request.forms.getunicode('opis')
+    podjetje = Podjetje(ime, drzava, datum_ustanovitve, opis)
+    podjetje.dodaj_v_bazo()
+    bottle.redirect('/')
 
 bottle.run(debug=True, reloader=True)

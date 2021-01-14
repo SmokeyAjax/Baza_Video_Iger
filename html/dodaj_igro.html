@@ -1,0 +1,59 @@
+% rebase('html/osnova.html')
+
+<h1>Dodaj Igro</h1>
+
+<form method="POST">
+    <div class="field">
+        <label class="label">Ime</label>
+        <div class="control">
+            <input class="input" type="text" placeholder="npr. Lego Batman 4" name="ime_igre" value="{{ime_igre}}">
+        </div>
+        % if napaka:
+        <p class="help is-danger">{{napaka}}</p>
+        % end
+    </div>
+
+    <label class="label">Datum Izdaje</label>
+    <div class="control">
+        <input class="input" type="date" placeholder="2021-01-14" name="datum_izdaje" value="{{datum_izdaje}}">
+    </div>
+
+    <label class="label">Cena</label>
+    <div class="control">
+        <input class="input" type="number" step="any" placeholder="59.99" name="cena" value="{{cena}}">
+    </div>
+
+    <label class="label">Število prodanih enot</label>
+    <div class="control">
+        <input class="input" type="text" placeholder="10.000" name="vsebuje" value="{{vsebuje}}">
+    </div>
+
+    <label class="label">Ime Razvijalca</label>
+    <div class="control">
+        <input class="input" type="text" placeholder="Valve" name="razvija" value="{{razvija}}">
+    </div>
+
+    <label class="label">Povprečen čas igranja</label>
+    <div class="control">
+        <input class="input" type="number" step="any" placeholder="40" name="povprecno_igranje" value="{{povprecno_igranje}}">
+    </div>
+
+    <label class="label">Mediana igranega časa</label>
+    <div class="control">
+        <input class="input" type="number" step="any" placeholder="40" name="mediana" value="{{mediana}}">
+    </div>
+
+    <label class="label">Ocena</label>
+    <div class="control">
+        <input class="input" type="number" step="any" min="0" max="100" placeholder="75" name="ocena" value="{{ocena}}">
+    </div>
+
+
+    <div class="field">
+        <div class="control">
+            <button class="button">Dodaj!</button>
+        </div>
+    </div>
+</form>
+
+

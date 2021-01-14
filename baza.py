@@ -167,6 +167,12 @@ class Igra(Tabela):
             );
         """)
 
+    def dodaj_vrstico(self,  **podatki):
+        """
+        Doda igro v bazo.
+        """
+        return super().dodaj_vrstico(**podatki)
+
 
 class Platforma(Tabela):
     """

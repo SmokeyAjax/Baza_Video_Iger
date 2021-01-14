@@ -69,18 +69,19 @@ class Igre:
     Razred za igre.
     """
 
-    def __init__(self, ime_igre, datum_izdaje, cena, st_prodanih, razvijalec, cas_igranja
-        , meadina_igranja, ocena, *ostalo):
+    def __init__(self, ime_igre, datum_izdaje, cena, vsebuje, razvija, povprecno_igranje
+        , mediana, ocena, *ostalo, id=None):
         """
         Konstruktor igre.
         """
+        self.id = id
         self.ime_igre = ime_igre
         self.datum_izdaje = datum_izdaje
         self.cena = cena
-        self.st_prodanih = st_prodanih
-        self.razvijalec = razvijalec
-        self.cas_igranja = cas_igranja
-        self.meadina_igranja = meadina_igranja
+        self.vsebuje = vsebuje
+        self.razvija = razvija
+        self.povprecno_igranje = povprecno_igranje
+        self.mediana = mediana
         self.ocena = ocena
         self.ostalo = ostalo
 
@@ -195,18 +196,15 @@ class Igre:
             yield Igre(ime_igre, datum_izdaje, cena, ocena, *ostalo)
 
 
-    # def dodaj_v_bazo(self, reziserji, igralci):
-    #     """
-    #     V bazo doda film s podanimi režiserji in igralci
-    #     """
-    #     assert self.id is None
-    #     with conn:
-    #         id = film.dodaj_vrstico(naslov=self.naslov, leto=self.leto, ocena=self.ocena)
-    #         for mesto, oseba in enumerate(reziserji, 1):
-    #             vloga.dodaj_vrstico(film=id, oseba=oseba.id, tip=TipVloge.R.name, mesto=mesto)
-    #         for mesto, oseba in enumerate(igralci, 1):
-    #             vloga.dodaj_vrstico(film=id, oseba=oseba.id, tip=TipVloge.I.name, mesto=mesto)
-    #         self.id = id1
+    def dodaj_v_bazo(self):
+        """
+        V bazo doda igro.
+        """
+        assert self.id is None
+        with conn:
+            self.id = igra.dodaj_vrstico(ime_igre=self.ime_igre, datum_izdaje=self.datum_izdaje, cena=self.cena,vsebuje=self.vsebuje,
+            razvija=self.razvija,povprecno_igranje=self.povprecno_igranje, mediana=self.mediana, ocena=self.ocena
+                                         )
 
 
 class Podjetje:

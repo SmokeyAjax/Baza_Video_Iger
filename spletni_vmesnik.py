@@ -78,4 +78,43 @@ def glej_vse_igre_ocena():
         glej_vse_igre_ocena=Igre.glej_vse_igre_ocena()
     )
 
+# Dodajanje igre
+@bottle.get('/dodaj_igro/')
+def dodaj_osebo():
+    return bottle.template(
+        'html/dodaj_igro.html',
+        napaka = None, ime_igre = "",
+        datum_izdaje = "", cena = "",
+        vsebuje = "", razvija = "",
+        povprecno_igranje = "",mediana = "",
+        ocena = ""
+    )
+
+@bottle.post('/dodaj_igro/')
+def dodaj_osebo_post():
+    ime_igre = bottle.request.forms.getunicode('ime_igre')
+    datum_izdaje = bottle.request.forms.getunicode('datum_izdaje')
+    cena = bottle.request.forms.getunicode('cena')
+    vsebuje = bottle.request.forms.getunicode('vsebuje')
+    razvija = bottle.request.forms.getunicode('razvija')
+    povprecno_igranje = bottle.request.forms.getunicode('povprecno_igranje')
+    mediana = bottle.request.forms.getunicode('mediana')
+    ocena = bottle.request.forms.getunicode('ocena')
+
+    if len(ime_igre) == 0 :
+        return bottle.template(
+            'html/dodaj_igro.html',
+            napaka='Ime Igre ne sme bit prazen!',
+            ime_igre = ime_igre,
+            datum_izdaje=datum_izdaje, cena=cena,
+            vsebuje=vsebuje, razvija=razvija,
+            povprecno_igranje=povprecno_igranje, meadina_igranja=mediana,
+            ocena=ocena
+        )
+    else:
+        igra = Igre(ime_igre, datum_izdaje, cena, vsebuje, razvija, povprecno_igranje, mediana, ocena)
+        igra.dodaj_v_bazo()
+        bottle.redirect('/')
+
+
 bottle.run(debug=True, reloader=True)

@@ -177,6 +177,16 @@ class Igra(Tabela):
         """
         Doda igro v bazo.
         """
+        assert "razvija" in podatki
+        sql = """
+                    SELECT DISTINCT podjetje.id FROM igra 
+                    LEFT JOIN podjetje ON (igra.razvija = podjetje.id)
+                    WHERE podjetje.ime = ?
+                """
+
+        for razvijalec in self.conn.execute(sql, [podatki["razvija"]]):
+            podatki["razvija"] = razvijalec[0]
+
         return super().dodaj_vrstico(**podatki)
 
 

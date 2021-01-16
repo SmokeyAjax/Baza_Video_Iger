@@ -179,8 +179,8 @@ class Igra(Tabela):
         """
         assert "razvija" in podatki
         sql = """
-                    SELECT DISTINCT podjetje.id FROM igra 
-                    LEFT JOIN podjetje ON (igra.razvija = podjetje.id)
+                    SELECT DISTINCT podjetje.id
+                    FROM podjetje 
                     WHERE podjetje.ime = ?
                 """
 
@@ -267,15 +267,17 @@ class Distributira(Tabela):
 
     def dodaj_vrstico(self, **podatki):
         """
-        Dodaj pripadnost igre in pripadajoči distributer.
-        Argumenti:
-        - podatki: slovar s podatki o distribuciji
+        Dodaj relacijo med igro in pripadajočim distributerjem.
         """
-        if podatki.get("[ime_igre]", None) is not None:
-            podatki["igra"] = self.igra.dodaj_vrstico(naziv=podatki["[ime_igre]"])
-            del podatki["[ime_igre]"]
+        assert "podjetje" in podatki
+        sql = """
+                    SELECT podjetje.id
+                    FROM podjetje
+                    WHERE ime == ?
+                """
+        for podjetje in self.conn.execute(sql, [podatki["podjetje"]]):
+            podatki["podjetje"] = podjetje[0]
         return super().dodaj_vrstico(**podatki)
-
 
 
 class Podpira(Tabela):
@@ -312,15 +314,18 @@ class Podpira(Tabela):
 
     def dodaj_vrstico(self, **podatki):
         """
-        Dodaj pripadnost filma in pripadajoči žanr.
-        Argumenti:
-        - podatki: slovar s podatki o pripadnosti
+        Doda relacijo med igro in platformo.
         """
-        if podatki.get("[ime_igre]", None) is not None:
-            podatki["igra"] = self.igra.dodaj_vrstico(naziv=podatki["[ime_igre]"])
-            del podatki["[ime_igre]"]
-        return super().dodaj_vrstico(**podatki)
+        assert "platforma" in podatki
+        sql = """
+                    SELECT platforma.id
+                    FROM platforma
+                    WHERE ime == ?
+                """
 
+        for platforma in self.conn.execute(sql, [podatki["platforma"]]):
+            podatki["platforma"] = platforma[0]
+        return super().dodaj_vrstico(**podatki)
 
 def ustvari_tabele(tabele):
     """

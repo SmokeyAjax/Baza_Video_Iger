@@ -202,9 +202,13 @@ class Igre:
         """
         assert self.id is None
         with conn:
-            self.id = igra.dodaj_vrstico(ime_igre=self.ime_igre, datum_izdaje=self.datum_izdaje, cena=self.cena,vsebuje=self.vsebuje,
-            razvija=self.razvija,povprecno_igranje=self.povprecno_igranje, mediana=self.mediana, ocena=self.ocena
-                                         )
+            id = igra.dodaj_vrstico(ime_igre=self.ime_igre, datum_izdaje=self.datum_izdaje, cena=self.cena,vsebuje=self.vsebuje,
+            razvija=self.razvija,povprecno_igranje=self.povprecno_igranje, mediana=self.mediana, ocena=self.ocena)
+
+            distributira.dodaj_vrstico(ime_igre=id, podjetje=self.ostalo[0])
+            podpira.dodaj_vrstico(ime_igre=id, platforma=self.ostalo[1])
+
+            self.id = id
 
 
 class Podjetje:

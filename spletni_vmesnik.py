@@ -86,18 +86,18 @@ def glej_vse_igre_ocena():
 
 # Dodajanje igre
 @bottle.get('/dodaj_igro/')
-def dodaj_osebo():
+def dodaj_igro():
     return bottle.template(
         'html/dodaj_igro.html',
         napaka = None, ime_igre = "",
         datum_izdaje = "", cena = "",
         vsebuje = "", razvija = "",
         povprecno_igranje = "",mediana = "",
-        ocena = ""
+        ocena = "", podjetje= "", platforma= ""
     )
 
 @bottle.post('/dodaj_igro/')
-def dodaj_osebo_post():
+def dodaj_igro_post():
     ime_igre = bottle.request.forms.getunicode('ime_igre')
     datum_izdaje = bottle.request.forms.getunicode('datum_izdaje')
     cena = bottle.request.forms.getunicode('cena')
@@ -107,6 +107,9 @@ def dodaj_osebo_post():
     mediana = bottle.request.forms.getunicode('mediana')
     ocena = bottle.request.forms.getunicode('ocena')
 
+    podjetje = bottle.request.forms.getunicode('podjetje')
+    platforma = bottle.request.forms.getunicode('platforma')
+
     if len(ime_igre) == 0 :
         return bottle.template(
             'html/dodaj_igro.html',
@@ -115,10 +118,10 @@ def dodaj_osebo_post():
             datum_izdaje=datum_izdaje, cena=cena,
             vsebuje=vsebuje, razvija=razvija,
             povprecno_igranje=povprecno_igranje, meadina_igranja=mediana,
-            ocena=ocena
+            ocena=ocena, podjetje=podjetje, platforma=platforma
         )
     else:
-        igra = Igre(ime_igre, datum_izdaje, cena, vsebuje, razvija, povprecno_igranje, mediana, ocena)
+        igra = Igre(ime_igre, datum_izdaje, cena, vsebuje, razvija, povprecno_igranje, mediana, ocena, podjetje, platforma)
         igra.dodaj_v_bazo()
         bottle.redirect('/')
 

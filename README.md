@@ -11,4 +11,4 @@ Podatkovna baza bo vsebovala tabele, z danimi podatki:
 
 Podatki bodo realni, iz spletni strani: https://www.igdb.com/discover
 
-![Diagram](https://github.com/SmokeyAjax/Baza_Video_Iger/blob/main/Diagram.png)
+![Diagram_iger](https://github.com/SmokeyAjax/Baza_Video_Iger/blob/main/diagram_iger.png)

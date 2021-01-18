@@ -109,7 +109,6 @@ def glavna_stran():
 # Prikaz igre
 @bottle.get('/<igra>/')
 def igra(igra):
-    zahtevaj_prijavo()
     return bottle.template(
         'html/igra.html',
         igra = igra,
@@ -172,7 +171,6 @@ def platforma(platforma):
 # Iskanje stran
 @bottle.get('/isci/')
 def iskanje():
-    zahtevaj_prijavo()
     iskalni_niz = bottle.request.query.getunicode('iskalni_niz')
     igre = Igre.poisci(iskalni_niz)
     return bottle.template(
@@ -184,7 +182,6 @@ def iskanje():
 # Glej vse igre stran, + vse verjante
 @bottle.get('/glej_vse_igre/')
 def glej_vse_igre():
-    zahtevaj_prijavo()
     return bottle.template(
         'html/glej_vse_igre.html',
         glej_vse_igre=Igre.glej_vse_igre()

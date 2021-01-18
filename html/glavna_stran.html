@@ -3,6 +3,15 @@
     <main>
       <h1>Podatkovna Baza Video Iger</h1>
 
+      <div>
+        % if ime:
+            <p>Prijavljen uporabnik: {{ime}} (<a href="/odjava/">odjava</a>)</p>
+        % else:
+        <p><a href="/prijava/">prijava</a> | 
+        <a href="/vpis/">vpis</a></p>
+        % end
+    </div>
+
         <!-- Iskalno polje ter gump -->
         <form action="/isci/">
             <div class="field">
@@ -33,7 +42,7 @@
               </tr>
           % end
         </table>
-
+    <table class="button">
         <!-- Gump za prikaz vseh iger -->
         <form action='/glej_vse_igre/'>
             <div class="field">
@@ -60,5 +69,6 @@
                     </div>
                 </div>
         </form>
+    </table>
 
     </main>

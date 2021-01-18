@@ -95,7 +95,7 @@ class Uporabnik(Tabela):
             )
         """)
 
-    def dodaj_vrstico(self, **podatki):
+    def dodaj_vrstico(self,  **podatki):
         """
         Dodaj uporabnika.
         Če sol ni podana, zašifrira podano geslo.
@@ -157,7 +157,6 @@ class Igra(Tabela):
         """
         Ustvari tabelo Igra.
         """
-        # platforma za zbrisat!
         self.conn.execute("""
             CREATE TABLE igra (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -188,7 +187,7 @@ class Igra(Tabela):
             podatki["razvija"] = razvijalec[0]
 
         return super().dodaj_vrstico(**podatki)
-
+    
 
 class Platforma(Tabela):
     """
@@ -211,26 +210,6 @@ class Platforma(Tabela):
                 podjetje    TEXT
             );
         """)
-
-
-    # def dodaj_vrstico(self,  **podatki):
-    #     """
-    #     Dodaj distributerja.
-    #     Če distributerja že obstaja, vrne obstoječi ID.
-    #     Argumenti:
-    #     - poimenovani parametri: vrednosti v ustreznih stolpcih
-    #     """
-    #     assert "distributer" in podatki
-    #     cur = self.conn.execute("""
-    #         SELECT id FROM distributer
-    #         WHERE ime = :ime;
-    #     """, podatki)
-    #     r = cur.fetchone()
-    #     if r is None:
-    #         return super().dodaj_vrstico(**podatki)
-    #     else:
-    #         id, = r
-    #         return id
 
 
 class Distributira(Tabela):
@@ -273,7 +252,7 @@ class Distributira(Tabela):
         sql = """
                     SELECT podjetje.id
                     FROM podjetje
-                    WHERE ime == ?
+                    WHERE ime = ?
                 """
         for podjetje in self.conn.execute(sql, [podatki["podjetje"]]):
             podatki["podjetje"] = podjetje[0]
@@ -376,8 +355,6 @@ def pripravi_tabele(conn):
     uporabnik = Uporabnik(conn)
     podjetje = Podjetje(conn)
     platforma = Platforma(conn)
-    # distributer = Distributer(conn, podjetje)
-    #razvijalec = Razvijalec(conn, podjetje)
     igra = Igra(conn, podjetje)
     distributira = Distributira(conn, igra)
     podpira = Podpira(conn, igra)

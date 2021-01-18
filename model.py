@@ -36,7 +36,6 @@ class Uporabnik:
         """
         return self.ime
 
-
     @staticmethod
     def prijava(ime, geslo):
         """
@@ -104,6 +103,8 @@ class Igre:
         """
         Vrne vse podatke o igri.
         """
+        publisherji = set()
+        platforme = set()
         sql = """
             SELECT igra.ime_igre, igra.datum_izdaje, cena, vsebuje, razvijalec.ime, povprecno_igranje, mediana, ocena,
              podjetje.ime, platforma.ime
@@ -114,8 +115,17 @@ class Igre:
                       LEFT JOIN podjetje AS razvijalec ON (igra.razvija = razvijalec.id)
             WHERE igra.ime_igre == ?
         """
-        for ime_igre, datum_izdaje, cena, st_prodanih, razvijalec, cas_igranja, meadina_igranja, ocena, distibuter, platforma in conn.execute(sql, [igra]):
-            yield Igre(ime_igre, datum_izdaje, cena, st_prodanih, razvijalec, cas_igranja, meadina_igranja, ocena, distibuter, platforma)
+        a = [vrsta for vrsta in conn.execute(sql, [igra]).fetchall()]
+        print(a)
+        tabela = list(a[0][:8])
+        for i in range(len(a)):
+            publisherji.add(a[i][8])
+            platforme.add(a[i][9])
+        tabela.append(list(publisherji))
+        tabela.append(list(platforme))
+        yield Igre(tabela[0], tabela[1], tabela[2], tabela[3], tabela[4], tabela[5], tabela[6], tabela[7], tabela[8], tabela[9])
+        # for ime_igre, datum_izdaje, cena, st_prodanih, razvijalec, cas_igranja, meadina_igranja, ocena, distibuter, platforma in conn.execute(sql, [igra]):               
+        #     yield Igre(ime_igre, datum_izdaje, cena, st_prodanih, razvijalec, cas_igranja, meadina_igranja, ocena, distibuter, platforma)
 
     @staticmethod
     def poisci(niz):
@@ -177,7 +187,7 @@ class Igre:
         sql = """
                 SELECT ime_igre, datum_izdaje, cena, vsebuje, razvija, povprecno_igranje, mediana, ocena
                 FROM igra
-                ORDER BY cena DESC NULLS LAST
+                ORDER BY cena ASC NULLS LAST
             """
         for ime_igre, datum_izdaje, cena, ocena, *ostalo  in conn.execute(sql):
             yield Igre(ime_igre, datum_izdaje, cena, ocena, *ostalo)
@@ -209,6 +219,45 @@ class Igre:
             podpira.dodaj_vrstico(ime_igre=id, platforma=self.ostalo[1])
 
             self.id = id
+    
+    def dodajplatformo(self):
+
+        sql = """
+            SELECT id
+            FROM igra
+            WHERE ime_igre = ?
+            """
+        id = conn.execute(sql, [self.ime_igre]).fetchall()
+        assert self.id is None
+        with conn:
+            podpira.dodaj_vrstico(ime_igre=id[0][0], platforma = self.ostalo[1])
+            self.id = id[0][0]
+
+    def dodajdistributerja(self):
+
+        sql = """
+            SELECT id
+            FROM igra
+            WHERE ime_igre = ?
+            """
+        id = conn.execute(sql, [self.ime_igre]).fetchall()
+        assert self.id is None
+        with conn:
+            distributira.dodaj_vrstico(ime_igre=id[0][0], podjetje = self.ostalo[0])
+            self.id = id[0][0]
+    
+    def spremeni_podatke(self):
+        '''
+        Funkcjia spremeni vrednosti določene vrstice
+        '''
+        print(self.ocena)
+        sql = """
+                UPDATE igra
+                SET datum_izdaje = ?, cena = ?, vsebuje = ?, povprecno_igranje = ?, mediana = ?, ocena = ?
+                WHERE ime_igre = ?
+            """
+        conn.execute(sql, [self.datum_izdaje, self.cena, self.vsebuje, self.povprecno_igranje, self.mediana, self.ocena, self.ime_igre])
+        conn.commit()
 
 
 class Podjetje:
@@ -278,62 +327,3 @@ class Platforma:
         """
         for ime, tip, datum_izdaje, opis, podjetje in conn.execute(sql, [platforma]):
             yield Platforma(ime, tip, datum_izdaje, opis, podjetje)
-
-
-# class Oseba:
-#     """
-#     Razred za osebo.
-#     """
-
-#     def __init__(self, ime, *, id=None):
-#         """
-#         Konstruktor osebe.
-#         """
-#         self.id = id
-#         self.ime = ime
-
-#     def __str__(self):
-#         """
-#         Znakovna predstavitev osebe.
-#         Vrne ime osebe.
-#         """
-#         return self.ime
-
-#     def poisci_vloge(self):
-#         """
-#         Vrne vloge osebe.
-#         """
-#         sql = """
-#             SELECT film.naslov, film.leto, vloga.tip
-#             FROM film
-#                 JOIN vloga ON film.id = vloga.film
-#             WHERE vloga.oseba = ?
-#             ORDER BY leto
-#         """
-#         for naslov, leto, tip_vloge in conn.execute(sql, [self.id]):
-#             yield (naslov, leto, TipVloge[tip_vloge])
-
-#     @staticmethod
-#     def poisci(niz):
-#         """
-#         Vrne vse osebe, ki v imenu vsebujejo dani niz.
-#         """
-#         sql = "SELECT id, ime FROM oseba WHERE ime LIKE ?"
-#         for id, ime in conn.execute(sql, ['%' + niz + '%']):
-#             yield Oseba(ime=ime, id=id)
-
-#     def dodaj_v_bazo(self):
-#         """
-#         Doda osebo v bazo.
-#         """
-#         assert self.id is None
-#         with conn:
-#             self.id = oseba.dodaj_vrstico(ime=self.ime)
-
-
-# class TipVloge(Seznam):
-#     """
-#     Oznake za tip vloge.
-#     """
-#     I = 'igralec'
-#     R = 'režiser'

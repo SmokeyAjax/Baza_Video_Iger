@@ -1,6 +1,5 @@
 import baza
 import sqlite3
-from pomozne_funkcije import Seznam
 from geslo import sifriraj_geslo, preveri_geslo
 
 conn = sqlite3.connect('igre.db')

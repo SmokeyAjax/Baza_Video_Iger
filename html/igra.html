@@ -12,7 +12,7 @@
     <p style= padding-left:5em>Cena: {{podatek.cena}}$,</p>
     <p style= padding-left:5em>Število prodanih enot: {{podatek.vsebuje}},</p>
     <p style= padding-left:5em>Razvijalec: <a href="http://127.0.0.1:8080/podjetje/{{podatek.razvija}}/">{{podatek.razvija}},</a></p>
-    <p style= padding-left:5em>Distributer:
+    <p style= padding-left:5em>Založnik:
     % for publisher in podatek.ostalo[0]:
     <a href="http://127.0.0.1:8080/podjetje/{{publisher}}/">{{publisher}},</a>
     % end
@@ -60,7 +60,7 @@
     <form action='/'>
         <div class="field">
                 <div class="control">
-                    <button class="button">Nazaj na Glavno Stran</button>
+                    <button class="button">Nazaj na glavno stran</button>
                 </div>
             </div>
     </form>

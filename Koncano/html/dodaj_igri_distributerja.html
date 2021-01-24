@@ -1,0 +1,25 @@
+% rebase('html/osnova.html')
+<main>
+<form method = "POST">
+    <h1>Dodaj založnika video igri {{ime_igre}}</h1>
+
+    % if napaka:
+    <p class="help is-danger">{{napaka}}</p>
+    % end
+    
+    <label class="label">Ime založnik</label>
+    <div class="control">
+        <input class="input" type="text" placeholder="Valve" name="distributer" value="{{distributer}}">
+    </div>
+
+    <div class="field">
+        <div class="control">
+        <button class="button">Dodaj!</button>
+    </div>
+</div>
+</form>
+<div class="field">
+    <div class="control">
+    <a href = '/{{ime_igre}}/'><button class="button">Nazaj!</button></a>
+</div>
+</main>

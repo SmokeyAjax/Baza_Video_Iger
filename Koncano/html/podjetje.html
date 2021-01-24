@@ -1,0 +1,35 @@
+% rebase('html/osnova.html')
+
+<main>
+    % for podatek in podatki_o_podjetju:
+      <h1>{{podatek.ime}}</h1>
+
+    <label>Podatki:</label>
+    <br>
+
+    <p style= padding-left:5em>Ime podjetja: {{podatek.ime}}</p>
+
+    % if podatek.drzava == None or len(str(podatek.drzava)) == 0:
+      <p style= padding-left:5em>Kraj ustanovitve: <em>Ni podatka</em></p>
+    % else:
+      <p style= padding-left:5em>Kraj ustanovitve: {{podatek.drzava}}</p>
+    % end
+
+    % if podatek.datum_ustanovitve == None or len(str(podatek.datum_ustanovitve)) == 0:
+      <p style= padding-left:5em>Datum ustanovitve: <em>Ni podatka</em></p>
+    % else:
+      <p style= padding-left:5em>Datum ustanovitve: {{podatek.datum_ustanovitve}}</p>
+    % end
+
+    % if podatek.opis == None or len(str(podatek.opis)) == 0:
+      <p style= padding-left:5em>Opis: <em>Ni podatka</em></p>
+    % else:
+      <p style= padding-left:5em>Opis: {{podatek.opis}}</p>
+    % end
+
+
+    <!-- Gump za nazaj -->
+    <form>
+        <input type = 'button' value= 'Nazaj' onclick = 'history.back()'>
+    </form>
+</main>

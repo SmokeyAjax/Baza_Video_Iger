@@ -1,0 +1,12 @@
+id,ime,tip,datum_izdaje,opis,podjetje
+0,PC,OS,2007-01-30,A personal computer.,Microsoft
+1,PS4,Console,2013-11-29,The PlayStation 4 is a home video game console developed by Sony Computer Entertainment.,Sony
+2,PS3,Console,2012-09-27,The PlayStation 3 is a home video game console developed by Sony Computer Entertainment.,Sony
+3,X360,Console,2005-11-22,The Xbox 360 is a home video game console developed by Microsoft.,Microsoft
+4,WIIU,Console,2012-12-28,The Wii U is a home video game console developed by Nintendo as the successor to the Wii.,Nintendo
+5,Nintendo DS,Portable,2005-03-11,two LCD screens working in tandem.,Nintendo
+6,XONE,Console,2013-11-22,The Xbox One is a line of home video game consoles developed by Microsoft.,Microsoft
+7,VITA,Portable,2015-03-20,The PlayStation Vita is a handheld video game console developed and marketed by Sony Computer Entertainment.,Sony
+8,3DS,Portable,2011-02-26,The Nintendo 3DS is the successor to the Nintendo DS.,Nintendo
+9,Switch,Console,2017-03-03,The Nintendo Switch system transforms from home console to handheld.,Nintendo
+10,DS,Portable,2004-11-21,two LCD screens working in tandem.,Nintendo

@@ -1,0 +1,97 @@
+% rebase('html/osnova.html')
+
+<main>
+    % for podatek in podatki_o_igri:
+      <h1>{{podatek.ime_igre}}</h1>
+
+    <label>Podatki:</label>
+    <br>
+
+    <p style= padding-left:5em>Ime igre: {{podatek.ime_igre}},</p>
+    <p style= padding-left:5em>Datum izdaje: {{podatek.datum_izdaje}},</p>
+    
+    % if podatek.cena == None or len(str(podatek.cena)) == 0:
+        <p style= padding-left:5em>Cena: <em>Ni podatka</em>,</p>
+    % else:
+        <p style= padding-left:5em>Cena: {{podatek.cena}}$,</p>
+    % end
+
+    % if podatek.vsebuje == None or len(str(podatek.vsebuje)) == 0:
+        <p style= padding-left:5em>Število prodanih enot: <em>Ni podatka</em>,</p>
+    % else:
+        <p style= padding-left:5em>Število prodanih enot: {{podatek.vsebuje}},</p>
+    % end
+
+    <p style= padding-left:5em>Razvijalec: <a href="http://127.0.0.1:8080/podjetje/{{podatek.razvija}}/">{{podatek.razvija}},</a></p>
+    <p style= padding-left:5em>Založnik:
+    % for publisher in podatek.ostalo[0]:
+    <a href="http://127.0.0.1:8080/podjetje/{{publisher}}/">{{publisher}},</a>
+    % end
+    </p>
+    <p style= padding-left:5em>Platforma:
+    % for platform in podatek.ostalo[1]:
+    <a href="http://127.0.0.1:8080/platforme/{{platform}}/">{{platform}},</a>
+    %end
+    </p>
+    % if podatek.povprecno_igranje == None or len(str(podatek.povprecno_igranje)) == 0:
+        <p style= padding-left:5em>Povprečen čas igranja: <em>Ni podatka</em>,</p>
+    % else:
+        <p style= padding-left:5em>Povprečen čas igranja: {{podatek.povprecno_igranje}},</p>
+    %end
+
+    % if podatek.mediana == None or len(str(podatek.mediana)) == 0:
+        <p style= padding-left:5em>Mediana igranega časa: <em>Ni podatka</em>,</p>
+    % else:
+        <p style= padding-left:5em>Mediana igranega časa: {{podatek.mediana}},</p>
+    % end
+
+    % if podatek.ocena == None or len(str(podatek.ocena)) == 0:
+        <p style= padding-left:5em>Ocena: <em>Ni podatka</em></p>
+    % else:
+        <p style= padding-left:5em>Ocena: {{podatek.ocena}}</p>
+    % end
+
+    % if admin:
+    <!-- Gump za urejanje -->
+    <form action='/uredi/{{podatek.ime_igre}}/'>
+        <div class="field">
+                <div class="control">
+                    <button class="button">Uredi igro</button>
+                </div>
+            </div>
+    </form>
+
+    <!-- Gump za dodajanje platforme  -->
+    <form action='/dodaj_platformo/{{podatek.ime_igre}}/'>
+        <div class="field">
+                <div class="control">
+                    <button class="button">Dodaj platformo</button>
+                </div>
+            </div>
+    </form>
+
+    <!-- Gump za urejanje -->
+    <form action='/dodaj_distributerja/{{podatek.ime_igre}}/'>
+        <div class="field">
+                <div class="control">
+                    <button class="button">Dodaj založnika</button>
+                </div>
+            </div>
+    </form>
+    
+    % end
+
+    <!-- Gump za Glavno stran -->
+    <form action='/'>
+        <div class="field">
+                <div class="control">
+                    <button class="button">Nazaj na glavno stran</button>
+                </div>
+            </div>
+    </form>
+    
+    <!-- Gump za nazaj -->
+    <form>
+        <input type = 'button' value= 'Nazaj' onclick = 'history.back()'>
+    </form>
+</main>

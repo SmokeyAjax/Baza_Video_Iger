@@ -1,0 +1,39 @@
+% rebase('html/osnova.html')
+
+<main>
+    <h1>Vse igre</h1>
+
+        <!-- Gump za Glavno stran -->
+    <form action='/'>
+        <div class="field">
+                <div class="control">
+                    <button class="button">Nazaj na glavno stran</button>
+                </div>
+            </div>
+    </form>
+
+    <table>
+          <tr>
+            <th><a href="http://127.0.0.1:8080/glej_vse_igre/po_imenih/">Ime igre</a></th>
+            <th><a href="http://127.0.0.1:8080/glej_vse_igre/po_datumu/">Datum izdaje</a></th>
+            <th><a href="http://127.0.0.1:8080/glej_vse_igre/">Cena</a></th>
+            <th><a href="http://127.0.0.1:8080/glej_vse_igre/po_oceni/">Ocena</a></th>
+          </tr>
+          % for igra in glej_vse_igre_cena:
+              <tr>
+                <td><a href="http://127.0.0.1:8080/{{igra.ime_igre}}/">{{igra.ime_igre}}</a></td>
+                <td> {{igra.datum_izdaje}} </td>
+                % if igra.cena == None or len(str(igra.cena)) == 0:
+                  <td> None </td>
+                % else:
+                  <td> {{igra.cena}}$ </td>
+                % end
+                % if igra.ocena == None or len(str(igra.ocena)) == 0:
+                  <td> None </td>
+                % else:
+                  <td> {{igra.ocena}} </td>
+                % end
+              </tr>
+          % end
+        </table>
+</main>

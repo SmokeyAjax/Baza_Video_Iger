@@ -1,6 +1,8 @@
 # Baza video iger
 Podatkovne baze 1
 
+Končan projekt v mapi "Končano"!.
+
 Sestavila bova podatkovno bazo video iger, kjer se bo dalo pogledati splošne podatke o določeni igri. (Ideja je podobno kot IMDB, samo da za igre in zelo manj obsežna)
 
 Podatkovna baza bo vsebovala tabele, z danimi podatki:
